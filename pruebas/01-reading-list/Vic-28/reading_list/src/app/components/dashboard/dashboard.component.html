@@ -1,0 +1,45 @@
+<main>
+    <div class="books-available">
+        <h4 class="books-available-title">{{ getBooksAvailables() }} Libros Disponibles</h4>
+        <div class="books-available-filters">
+            <div>
+                <label for="rangeByPages">Filtrar por páginas</label>
+                <input 
+                  type="range" 
+                  name="rangeByPages" 
+                  id="rangeByPages" 
+                  class="books-available-range"
+                  [min]="0" 
+                  [max]="maxPages" 
+                  [(ngModel)]="minPages" 
+                  (ngModelChange)="onRangeChange($event)"/>
+                <span>{{ minPages }} páginas</span>
+            </div>
+            <div>
+                <label for="selectByGenre">Filtrar por género</label>
+                <select name="selectByGenre" [(ngModel)]="selectedGenre">
+                    <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="books-list">
+            <ul>
+                <li *ngFor="let book of filterBooks()" class="book-item can-Select" [ngClass]="{'bookNotAvailable': isBookSelected(book)}">
+                    <img (click)="addBook(book)"  [src]="book.cover" alt="{{ book.title }} cover" />
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="booksSelecteds" *ngIf="booksAvailables.length > 0">
+        <p>Libros Escogidos:</p>
+        <div class="books-list">
+            <ul>
+                <li *ngFor="let book of booksAvailables" class="book-item">
+                    <div class="booksSelecteds-books-book-remover" (click)="removeBook(book)">X</div>
+                    <img [src]="book.cover" alt="{{book.title}} cover" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
