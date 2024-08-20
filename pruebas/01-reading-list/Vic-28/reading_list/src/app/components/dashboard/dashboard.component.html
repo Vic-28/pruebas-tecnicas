@@ -29,16 +29,16 @@
 
     <!-- Sección de libros disponibles -->
     <div class="books-available" *ngIf="showAvailableBooks">
-        <p>Libros Disponibles:</p>
+        <h4>Libros Disponibles:</h4>
         <div class="books-list">
             <ul>
                 <li *ngFor="let book of filterBooks()" class="book-item can-Select" [ngClass]="{'bookNotAvailable': isBookSelected(book)}">
                     <img (click)="addBook(book)"  [src]="book.cover" alt="{{ book.title }} cover" />
                     <div class="books-list-book-item-details">
-                        <p>Titulo: {{book.title}}</p>
-                        <p>Genero: {{book.genre}}</p>
-                        <p>Páginas: {{book.pages}}</p>
-                        <p>Autor: {{book.author.name}}</p>
+                        <p><b>Titulo:</b> {{book.title}}</p>
+                        <p><b>Genero:</b> {{book.genre}}</p>
+                        <p><b>Páginas:</b> {{book.pages}}</p>
+                        <p><b>Autor:</b> {{book.author.name}}</p>
                     </div>
                 </li>
             </ul>
@@ -47,7 +47,7 @@
     
     <!-- Sección de libros seleccionados -->
     <div class="booksSelecteds" *ngIf="showSelectedBooks">
-        <p>Libros Escogidos:</p>
+        <h4>Libros Escogidos:</h4>
         <div class="books-list">
             <ul>
                 <ng-container *ngIf="booksAvailables.length != 0">
@@ -55,10 +55,10 @@
                         <div class="booksSelecteds-books-book-remover" (click)="removeBook(book)">X</div>
                         <img [src]="book.cover" alt="{{ book.title }} cover" />
                         <div class="books-list-book-item-details">
-                            <p>Titulo:{{book.title}}</p>
-                            <p>Genero:{{book.genre}}</p>
-                            <p>Páginas:{{book.pages}}</p>
-                            <p>Autor:{{book.author.name}}</p>
+                            <p><b>Titulo:</b>{{book.title}}</p>
+                            <p><b>Genero:</b>{{book.genre}}</p>
+                            <p><b>Páginas:</b>{{book.pages}}</p>
+                            <p><b>Autor:</b>{{book.author.name}}</p>
                         </div>
                     </li>   
                 </ng-container>
