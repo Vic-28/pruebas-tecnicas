@@ -1,45 +1,72 @@
 <main>
-    <div class="books-available">
-        <h4 class="books-available-title">{{ getBooksAvailables() }} Libros Disponibles</h4>
-        <div class="books-available-filters">
-            <div>
-                <label for="rangeByPages">Filtrar por páginas</label>
-                <input 
-                  type="range" 
-                  name="rangeByPages" 
-                  id="rangeByPages" 
-                  class="books-available-range"
-                  [min]="0" 
-                  [max]="maxPages" 
-                  [(ngModel)]="minPages" 
-                  (ngModelChange)="onRangeChange($event)"/>
-                <span>{{ minPages }} páginas</span>
-            </div>
-            <div>
-                <label for="selectByGenre">Filtrar por género</label>
-                <select name="selectByGenre" [(ngModel)]="selectedGenre">
-                    <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
-                </select>
-            </div>
+    <div class="books-available-filters">
+        <div class="bookListSelectors">
+            <h4 (click)="showBookList()">Libros Disponibles ({{ filterBooks().length }})</h4>
+            <h4 (click)="showBooksselecteds()">Mis Libros ({{ booksAvailables.length }})</h4>
         </div>
+        <!-- Filtros de libros disponibles -->
+        <div>
+            <label for="rangeByPages">Filtrar por páginas</label>
+            <input 
+              type="range" 
+              name="rangeByPages" 
+              id="rangeByPages" 
+              class="books-available-range"
+              [min]="0" 
+              [max]="maxPages" 
+              [(ngModel)]="minPages" 
+              (ngModelChange)="onRangeChange($event)" />
+            <p>{{ minPages }} páginas </p>
+            <p class="subtitle">(máximo 1200)</p>
+        </div>
+        <div>
+            <label for="selectByGenre">Filtrar por género</label>
+            <select name="selectByGenre" [(ngModel)]="selectedGenre">
+                <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Sección de libros disponibles -->
+    <div class="books-available" *ngIf="showAvailableBooks">
+        <p>Libros Disponibles:</p>
         <div class="books-list">
             <ul>
                 <li *ngFor="let book of filterBooks()" class="book-item can-Select" [ngClass]="{'bookNotAvailable': isBookSelected(book)}">
                     <img (click)="addBook(book)"  [src]="book.cover" alt="{{ book.title }} cover" />
+                    <div class="books-list-book-item-details">
+                        <p>Titulo: {{book.title}}</p>
+                        <p>Genero: {{book.genre}}</p>
+                        <p>Páginas: {{book.pages}}</p>
+                        <p>Autor: {{book.author.name}}</p>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
-
-    <div class="booksSelecteds" *ngIf="booksAvailables.length > 0">
+    
+    <!-- Sección de libros seleccionados -->
+    <div class="booksSelecteds" *ngIf="showSelectedBooks">
         <p>Libros Escogidos:</p>
         <div class="books-list">
             <ul>
-                <li *ngFor="let book of booksAvailables" class="book-item">
-                    <div class="booksSelecteds-books-book-remover" (click)="removeBook(book)">X</div>
-                    <img [src]="book.cover" alt="{{book.title}} cover" />
-                </li>
+                <ng-container *ngIf="booksAvailables.length != 0">
+                    <li *ngFor="let book of booksAvailables" class="book-item">
+                        <div class="booksSelecteds-books-book-remover" (click)="removeBook(book)">X</div>
+                        <img [src]="book.cover" alt="{{ book.title }} cover" />
+                        <div class="books-list-book-item-details">
+                            <p>Titulo:{{book.title}}</p>
+                            <p>Genero:{{book.genre}}</p>
+                            <p>Páginas:{{book.pages}}</p>
+                            <p>Autor:{{book.author.name}}</p>
+                        </div>
+                    </li>   
+                </ng-container>
+                <ng-container *ngIf="booksAvailables.length === 0">
+                    <p>No hay libros seleccionados</p>   
+                </ng-container>
             </ul>
         </div>
     </div>
+    
 </main>
